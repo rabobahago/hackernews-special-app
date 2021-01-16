@@ -2,28 +2,46 @@ import React from 'react'
 import Search from './components/search/Search'
 import Table from './components/table/Table'
 import './App.css'
-const list = [
-  {
-    title: 'React',
-    url: 'https://reactjs.org/',
-    author: 'Jordan Walke',
-    num_comments: 3,
-    points: 4,
-    objectID: 0,
-  },
-  {
-    title: 'Redux',
-    url: 'https://redux.js.org/',
-    author: 'Dan Abramov, Andrew Clark',
-    num_comments: 2,
-    points: 5,
-    objectID: 1,
-  },
-]
+const DEFAULT_QUERY = 'redux'
+const PATH_BASE = 'https://hn.algolia.com/api/v1'
+const PATH_SEARCH = '/search'
+const PARAM_SEARCH = 'query='
+const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}`
+// const list = [
+//   {
+//     title: 'React',
+//     url: 'https://reactjs.org/',
+//     author: 'Jordan Walke',
+//     num_comments: 3,
+//     points: 4,
+//     objectID: 0,
+//   },
+//   {
+//     title: 'Redux',
+//     url: 'https://redux.js.org/',
+//     author: 'Dan Abramov, Andrew Clark',
+//     num_comments: 2,
+//     points: 5,
+//     objectID: 1,
+//   },
+// ]
 class App extends React.Component {
   state = {
-    list: list,
+    result: null,
     searchItem: '',
+  }
+  setSearchTopStories = (result) => {
+    this.setState({ result })
+  }
+  componentDidMount() {
+    fetch(url)
+      .then((response) => response.json())
+      .then((result) => {
+        this.setSearchTopStories(result)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
   onDismiss = (id) => {
     const filteredState = this.state.list.filter((item) => {
@@ -35,7 +53,11 @@ class App extends React.Component {
     this.setState({ ...this.state, searchItem: event.target.value })
   }
   render() {
-    const { searchItem, list } = this.state
+    //console.log('render')
+    const { searchItem, result } = this.state
+    if (!result) {
+      return null
+    }
     return (
       <div className="page">
         <div className="interactions">
@@ -43,7 +65,11 @@ class App extends React.Component {
             Search
           </Search>
         </div>
-        <Table list={list} searchItem={searchItem} onDismiss={this.onDismiss} />
+        <Table
+          list={result.hits}
+          searchItem={searchItem}
+          onDismiss={this.onDismiss}
+        />
       </div>
     )
   }
