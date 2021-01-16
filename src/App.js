@@ -1,6 +1,7 @@
 import React from 'react'
 import Search from './components/search/Search'
 import Table from './components/table/Table'
+import './App.css'
 const list = [
   {
     title: 'React',
@@ -36,10 +37,12 @@ class App extends React.Component {
   render() {
     const { searchItem, list } = this.state
     return (
-      <div>
-        <Search onChange={this.onSearchChange} value={searchItem}>
-          Search
-        </Search>
+      <div className="page">
+        <div className="interactions">
+          <Search onChange={this.onSearchChange} value={searchItem}>
+            Search
+          </Search>
+        </div>
         <Table list={list} searchItem={searchItem} onDismiss={this.onDismiss} />
       </div>
     )
