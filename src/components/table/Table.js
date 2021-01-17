@@ -1,14 +1,9 @@
 import React from 'react'
 import Button from '../button/Button'
 const Table = ({ list, onDismiss, searchItem }) => {
-  const isSearch = (search) => {
-    return (item) => {
-      return item.title.toLowerCase().includes(search.toLowerCase())
-    }
-  }
   return (
     <div className="table">
-      {list.filter(isSearch(searchItem)).map((item) => {
+      {list.map((item) => {
         return (
           <div key={item.objectID} className="table-row">
             <span style={{ width: '40%' }}>

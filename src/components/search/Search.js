@@ -1,10 +1,11 @@
 import React from 'react'
-const Search = ({ onChange, value, children }) => {
+const Search = ({ onChange, value, children, onSubmit }) => {
   return (
     <div>
-      <form>
+      <form onSubmit={onSubmit}>
         {children}
-        <input onChange={onChange} value={value} />
+        <input type="text" onChange={onChange} value={value} />
+        <button type="submit">{children}</button>
       </form>
     </div>
   )
