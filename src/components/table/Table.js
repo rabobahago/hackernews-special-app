@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '../button/Button'
-const Table = ({ list, onDismiss, searchItem }) => {
+const Table = ({ list, onDismiss }) => {
   return (
     <div className="table">
       {list.map((item) => {

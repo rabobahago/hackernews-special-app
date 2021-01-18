@@ -4,30 +4,15 @@ import Table from './components/table/Table'
 import './App.css'
 import Button from './components/button/Button'
 //const DEFAULT_QUERY = 'redux'
+const DEFAULT_HPP = '100'
 const PATH_BASE = 'https://hn.algolia.com/api/v1'
 const PATH_SEARCH = '/search'
 const PARAM_SEARCH = 'query='
 const PARAM_PAGE = 'page='
+const PARAM_HPP = 'hitsPerPage='
 
 //const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}&${PARAM_PAGE}`
-// const list = [
-//   {
-//     title: 'React',
-//     url: 'https://reactjs.org/',
-//     author: 'Jordan Walke',
-//     num_comments: 3,
-//     points: 4,
-//     objectID: 0,
-//   },
-//   {
-//     title: 'Redux',
-//     url: 'https://redux.js.org/',
-//     author: 'Dan Abramov, Andrew Clark',
-//     num_comments: 2,
-//     points: 5,
-//     objectID: 1,
-//   },
-// ]
+
 class App extends React.Component {
   state = {
     result: null,
@@ -43,7 +28,7 @@ class App extends React.Component {
   }
   fetchSearchTopStories = (searchTerm, page = 0) => {
     fetch(
-      `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}`,
+      `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`,
     )
       .then((response) => response.json())
       .then((result) => {
@@ -75,6 +60,9 @@ class App extends React.Component {
     console.log(this.state.result)
     const { searchItem, result } = this.state
     const page = (result && result.page) || 0
+    if (!result) {
+      return null
+    }
     return (
       <div className="page">
         <div className="interactions">

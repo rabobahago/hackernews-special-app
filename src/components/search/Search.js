@@ -3,7 +3,6 @@ const Search = ({ onChange, value, children, onSubmit }) => {
   return (
     <div>
       <form onSubmit={onSubmit}>
-        {children}
         <input type="text" onChange={onChange} value={value} />
         <button type="submit">{children}</button>
       </form>
